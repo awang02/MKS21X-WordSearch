@@ -35,8 +35,15 @@ public class WordSearch{
      *separated by newlines.
      */
     public String toString(){
+      String result = new String("");
+      for (int x = 0; x < row; x++){
+        for (int y = 0; y < col; y++){
+          result += data[x][y] + " ";
+        }
+        result += "\n";
+      }
+      return result;
     }
-
 
     /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added from left to right, must fit on the WordGrid, and must
