@@ -6,11 +6,28 @@ public class WordSearch{
      *@param row is the starting height of the WordSearch
      *@param col is the starting width of the WordSearch
      */
+    private int row;
+    private int col;
+
     public WordSearch(int rows,int cols){
+      if (rows >= 0 && cols >= 0){
+        data = new char[rows][cols];
+        row = rows;
+        col = cols;
+      }
+      else{
+        throw new IllegalArgumentException();
+      }
+      clear();
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
+      for (int x = 0; x < row; x++){
+        for (int y = 0; y < col; y++){
+          data[x][y] = '_';
+        }
+      }
     }
 
     /**Each row is a new line, there is a space between each letter
