@@ -64,7 +64,7 @@ public class WordSearch{
         return false;
       }
       for (int i = 0; i < word.length(); i++){
-          if (data[row][i + col] != '_'){
+          if (data[row][i + col] != '_' && data[row][x + col] != word.charAt(x))){
             return false;
           }
       }
