@@ -30,18 +30,17 @@ public class WordSearch{
     }
 
     /**Each row is a new line, there is a space between each letter
-     *@return a String with each character separated by spaces, and rows
-     *separated by newlines.
+     *@return a String with each character separated by spaces, and rows separated by newlines.
      */
     public String toString(){
-      String result = new String("");
-      for (int x = 0; x < row; x++){
-        for (int y = 0; y < col; y++){
-          result += data[x][y] + " ";
+      String grid = new String("");
+      for (int r = 0; r < row; r++){
+        for (int c = 0; c < col; c++){
+          grid += data[r][c] + " ";
         }
-        result += "\n";
+        grid += "\n";
       }
-      return result;
+      return grid;
     }
 
     /**Attempts to add a given word to the specified position of the WordGrid.
