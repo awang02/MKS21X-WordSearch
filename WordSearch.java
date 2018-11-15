@@ -11,20 +11,20 @@ public class WordSearch{
     public WordSearch(int rows,int cols){
       if (rows > 0 && cols > 0){
         data = new char[rows][cols];
+        this.clear();
         row = rows;
         col = cols;
       }
       else{
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Number of rows or columns must be greater than 0.");
       }
-      clear();
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
-      for (int x = 0; x < row; x++){
-        for (int y = 0; y < col; y++){
-          data[x][y] = '_';
+      for (int r = 0; r < row; r++){
+        for (int c = 0; c < col; c++){
+          data[r][c] = '_';
         }
       }
     }
