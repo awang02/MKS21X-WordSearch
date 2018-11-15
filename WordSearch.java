@@ -1,3 +1,4 @@
+import java.util.Arrays;
 public class WordSearch{
     private char[][]data;
     private int row;
@@ -54,9 +55,24 @@ public class WordSearch{
      * or there are overlapping letters that do not match, then false is returned
      * and the board is NOT modified.
      */
-   }
-    public boolean addWordHorizontal(String word,int row, int col){
-      for
+    public boolean addWordHorizontal(String word, int row, int col){
+      //row or col are either too small or too large
+      if ((row < 0 || col < 0) || (col >= data[0].length || row >= data.length)){
+        return false;
+      }
+      //word extends outside of grid horizontally
+      if (col + word.length() > data[0].length){
+        return false;
+      }
+      for (int i = 0; i < word.length(); i++){
+          if (data[row][i + col] != '_'){
+            return false;
+          }
+      }
+      for (int y = 0; y < word.length(); y++){
+        data[row][col + y] = word.charAt(y);
+      }
+      return true;
     }
     /**Attempts to add a given word to the specified position of the WordGrid.
       *The word is added from top to bottom, must fit on the WordGrid, and must
@@ -70,5 +86,18 @@ public class WordSearch{
       *and the board is NOT modified.
     */
     public boolean addWordVertical(String word,int row, int col){
+
+    }
+    /**Attempts to add a given word to the specified position of the WordGrid.
+     *The word is added from top left to bottom right, must fit on the WordGrid,
+     *and must have a corresponding letter to match any letters that it overlaps.
+     *
+     *@param word is any text to be added to the word grid.
+     *@param row is the vertical locaiton of where you want the word to start.
+     *@param col is the horizontal location of where you want the word to start.
+     *@return true when the word is added successfully. When the word doesn't fit,
+     *or there are overlapping letters that do not match, then false is returned.
+     */
+    public boolean addWordDiagonal(String word,int row, int col){
 
     }
