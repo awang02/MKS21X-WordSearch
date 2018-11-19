@@ -116,6 +116,24 @@ public class WordSearch{
      *@return true when the word is added successfully. When the word doesn't fit,
      *or there are overlapping letters that do not match, then false is returned.
      */
-    //public boolean addWordDiagonal(String word,int row, int col){
-    //}
+    public boolean addWordDiagonal(String word,int row, int col){
+      //row or col are either too small or too large
+      if ((row < 0 || col < 0) || (col > data[row].length || row > data.length)){
+        return false;
+      }
+      //word extends outside of grid horizontally or vertically
+      if (col + word.length() > data[row].length||row + word.length() > data.length){
+        return false;
+      }
+      for (int i = 0; i < word.length(); i++){
+          if ((data[row + i][col + i] != '_') && (data[row + i][col + i] != word.charAt(i))){
+            return false;
+          }
+      }
+      // to avoid adding failed words
+      for (int i = 0; i < word.length(); i++){
+          data[row + i][col + i] = word.charAt(i);
+      }
+      return true;
+    }
   }
