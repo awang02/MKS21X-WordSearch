@@ -7,10 +7,8 @@ public class WordSearch{
   private char[][]data;
   private int seed;
   private Random randgen;
-  private ArrayList<String>wordsToAdd;
-  private ArrayList<String>wordsAdded;
-  //private int row;
-  //private int col;
+  private ArrayList<String> wordsToAdd;
+  private ArrayList<String> wordsAdded;
 
   /**Initialize the grid to the size specified
    *and fill all of the positions with '_'
@@ -31,35 +29,12 @@ public class WordSearch{
     *}
   *}
     */
-
-  // Choose a randSeed using the clock random
-  public WordSearch(int rows,int cols, String FN){
-    try {
-      data = new char[rows][cols];
-      randgen = new Random(seed);
-      wordsToAdd = new ArrayList();
-      wordsAdded = new ArrayList();
-      Scanner in = new Scanner(new File(FN));
-      // Adds all words from file to the arraylist of words to be added
-      while (in.hasNext()){
-        wordsToAdd.add(in.nextLine());
-      }
-      this.clear();
-      this.addAllWords();
-      in.close();
-    }
-    catch(FileNotFoundException e){
-      System.out.println("File not found: " + FN);
-      System.exit(1);
-    }
-   }
-  // Use the random seed specified.
   public WordSearch(int rows, int cols, String FN, int givenSeed, boolean answer){
    try{
      data = new char[rows][cols];
-     randgen = new Random(givenSeed);
-     wordsToAdd = new ArrayList();
-     wordsAdded = new ArrayList();
+     seed = givenSeed;
+     wordsToAdd = new ArrayList<String>();
+     wordsAdded = new ArrayList<String>();
      Scanner in = new Scanner(new File(FN));
      // Adds all words from file to the arraylist of words to be added
      while (in.hasNext()){
@@ -172,8 +147,8 @@ public class WordSearch{
      int max = 150;
      for (int i = 0; i < wordsToAdd.size() - 1; i++){
        while (attempts < max){
-         row = Math.abs(randgen.nextInt(seed) % data.length - 1);
-         col = Math.abs(randgen.nextInt(seed) % data[0].length - 1);
+         row = Math.abs(randgen.nextInt() % (data.length - 1));
+         col = Math.abs(randgen.nextInt() % (data[0].length - 1));
          rowIncrement = Math.abs(randgen.nextInt(2));
          colIncrement = Math.abs(randgen.nextInt(2));
          if (addWord(wordsToAdd.get(i), row, col, rowIncrement, colIncrement)){
