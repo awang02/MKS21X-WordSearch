@@ -33,11 +33,12 @@ public class WordSearch{
    try{
      data = new char[rows][cols];
      seed = givenSeed;
+     randgen = new Random(seed);
      wordsToAdd = new ArrayList<String>();
      wordsAdded = new ArrayList<String>();
      Scanner in = new Scanner(new File(FN));
      // Adds all words from file to the arraylist of words to be added
-     while (in.hasNext()){
+     while (in.hasNextLine()){
        wordsToAdd.add(in.nextLine());
      }
      this.clear();
@@ -71,7 +72,7 @@ public class WordSearch{
       grid += "|";
       for (int c = 0; c < data[r].length; c++){
         grid += data[r][c];
-        if (!(r == data[r].length - 1)){
+        if (!(c == data.length - 1)){
           grid += ",";
         }
       }
@@ -105,32 +106,22 @@ public class WordSearch{
    *        OR there are overlapping letters that do not match
    */
    private boolean addWord(String word,int row, int col, int rowIncrement, int colIncrement){
-     try{
-       if (row < 0 || col < 0 || col > data[row].length || row > data.length) {
-         return false;
-       }
-       if (rowIncrement == 0 && colIncrement == 0){
-         return false;
-       }
-       if (rowIncrement != -1 && rowIncrement != 0 && rowIncrement != 1) {
-         return false;
-       }
-       if (colIncrement != -1 && colIncrement != 0 && colIncrement != 1) {
-         return false;
-       }
-       for (int i = 0; i < word.length(); i++){
-           if ((data[row + i * rowIncrement][col + i * colIncrement] != '_') && (data[row + i * rowIncrement][col + i * colIncrement] != word.charAt(i))){
-             return false;
-           }
-       }
-       // to avoid adding failed words
-       for (int i = 0; i < word.length(); i++){
-         data[row + i * rowIncrement][col + i * colIncrement] = word.charAt(i);
-       }
-       return true;
-     }catch(ArrayIndexOutOfBoundsException e){
+     if ((row < 0 || col < 0 || col > data[row].length || row > data.length)
+     || (rowIncrement == 0 && colIncrement == 0)
+     || (rowIncrement != -1 && rowIncrement != 0 && rowIncrement != 1)
+     || (colIncrement != -1 && colIncrement != 0 && colIncrement != 1)) {
        return false;
      }
+     for (int i = 0; i < word.length()-1; i++){
+         if ((data[row + (i * rowIncrement)][col + (i * colIncrement)] != '_') && (data[row + (i * rowIncrement)][col + (i * colIncrement)] != word.charAt(i))){
+           return false;
+         }
+     }
+     // to avoid adding failed words
+     for (int i = 0; i < word.length(); i++){
+       data[row + (i * rowIncrement)][col + (i * colIncrement)] = word.charAt(i);
+     }
+     return true;
    }
     /*[rowIncrement,colIncrement] examples:
      *[-1,1] would add up and the right because (row -1 each time, col + 1 each time)
@@ -139,18 +130,19 @@ public class WordSearch{
      */
 
    private void addAllWords() {
-     int row;
-     int col;
-     int rowIncrement;
-     int colIncrement;
+     int row = 0;
+     int col = 0;
+     int rowIncrement = 0;
+     int colIncrement = 0;
      int attempts = 0;
      int max = 150;
-     for (int i = 0; i < wordsToAdd.size() - 1; i++){
+     //Random rng = new Random();
+     for (int i = 0; i < wordsToAdd.size(); i++){
        while (attempts < max){
-         row = Math.abs(randgen.nextInt() % (data.length - 1));
-         col = Math.abs(randgen.nextInt() % (data[0].length - 1));
-         rowIncrement = Math.abs(randgen.nextInt(2));
-         colIncrement = Math.abs(randgen.nextInt(2));
+         row = (randgen.nextInt() % (data.length - 1));
+         col = (randgen.nextInt() % (data[i].length - 1));
+         rowIncrement = randgen.nextInt(3) - 1;
+         colIncrement = randgen.nextInt(3) - 1;
          if (addWord(wordsToAdd.get(i), row, col, rowIncrement, colIncrement)){
            attempts = max;
            String s = wordsToAdd.get(i);
@@ -197,10 +189,10 @@ public class WordSearch{
         System.out.println("Row and or column must be larger than 0");
       }else {
         Boolean ans = false;
-        if (args[4].equals("answers")){
+        if (args[4].equals("key")){
           ans = true;
         }else{
-          System.out.println("Please specify if you want to return answers by entering \' answers \' as either true or false\n");
+          System.out.println("Please specify if you want to return answers by entering \'key\' as either true or false\n");
         }
         WordSearch ws = new WordSearch(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), ans);
         System.out.println(ws);
