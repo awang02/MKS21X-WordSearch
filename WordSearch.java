@@ -12,9 +12,9 @@ public class WordSearch{
     public WordSearch(int rows,int cols){
       if (rows > 0 && cols > 0){
         data = new char[rows][cols];
-        this.clear();
         row = rows;
         col = cols;
+        this.clear();
       }
       else{
         throw new IllegalArgumentException("Number of rows or columns must be greater than 0.");
@@ -57,20 +57,21 @@ public class WordSearch{
      */
     public boolean addWordHorizontal(String word, int row, int col){
       //row or col are either too small or too large
-      if ((row < 0 || col < 0) || (col >= data[0].length || row >= data.length)){
+      if ((row < 0 || col < 0) || (col >= data[row].length || row >= data.length)){
         return false;
       }
       //word extends outside of grid horizontally
-      if (col + word.length() > data[0].length){
+      if (col + word.length() - 1 > data[row].length){
         return false;
       }
       for (int i = 0; i < word.length(); i++){
-          if (data[row][i + col] != '_'){
+          if ((data[row][i + col] != '_') && (data[row][i + col] != word.charAt(i))){
             return false;
           }
       }
-      for (int y = 0; y < word.length(); y++){
-        data[row][col + y] = word.charAt(y);
+      // to avoid adding failed words
+      for (int i = 0; i < word.length(); i++){
+          data[row][col + i] = word.charAt(i);
       }
       return true;
     }
@@ -86,7 +87,24 @@ public class WordSearch{
       *and the board is NOT modified.
     */
     public boolean addWordVertical(String word,int row, int col){
-
+      //row or col are either too small or too large
+      if ((row < 0 || col < 0) || (col >= data[row].length || row >= data.length)){
+        return false;
+      }
+      //word extends outside of grid horizontally
+      if (row + word.length() - 1 > data.length){
+        return false;
+      }
+      for (int i = 0; i < word.length(); i++){
+          if ((data[row + i][col] != '_') && (data[row + i][col] != word.charAt(i))){
+            return false;
+          }
+      }
+      // to avoid adding failed words
+      for (int i = 0; i < word.length(); i++){
+          data[row + i][col] = word.charAt(i);
+      }
+      return true;
     }
     /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added from top left to bottom right, must fit on the WordGrid,
@@ -98,6 +116,6 @@ public class WordSearch{
      *@return true when the word is added successfully. When the word doesn't fit,
      *or there are overlapping letters that do not match, then false is returned.
      */
-    public boolean addWordDiagonal(String word,int row, int col){
-
-    }
+    //public boolean addWordDiagonal(String word,int row, int col){
+    //}
+  }
